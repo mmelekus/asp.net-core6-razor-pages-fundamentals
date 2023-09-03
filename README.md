@@ -2,5 +2,6 @@
 ASP.Net Core 6 Razor Pages Fundamentals
 
 > ## Sources
-> **Pluralsight Course:** https://app.pluralsight.com/library/courses/asp-dot-net-core-6-razor-pages-fundamentals/table-of-contents
-> **Exercise Files:** https://app.pluralsight.com/library/courses/asp-dot-net-core-6-razor-pages-fundamentals/exercise-files
+> - **Pluralsight Course:** https://app.pluralsight.com/library/courses/asp-dot-net-core-6-razor-pages-fundamentals/table-of-contents
+> - **Exercise Files:** https://app.pluralsight.com/library/courses/asp-dot-net-core-6-razor-pages-fundamentals/exercise-files
+> - **Exercise Files on GitHub:** https://github.com/alex-wolf-ps/aspnet6-razor-pages-fundamentals
