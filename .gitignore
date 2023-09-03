@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/asp-dot-net-core-6-razor-pages-fundamentals.zip
