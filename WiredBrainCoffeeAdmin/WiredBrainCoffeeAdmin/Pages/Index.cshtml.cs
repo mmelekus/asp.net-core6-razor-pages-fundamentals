@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 using WiredBrainCoffeeAdmin.Data.Models;
 
 namespace WiredBrainCoffeeAdmin.Pages
@@ -17,7 +18,8 @@ namespace WiredBrainCoffeeAdmin.Pages
 
         public void OnGet()
         {
-
+            var rawJson = System.IO.File.ReadAllText("wwwroot/sampledata/survey.json");
+            SurveyResults = JsonSerializer.Deserialize<List<SurveyItem>>(rawJson);
         }
     }
 }
