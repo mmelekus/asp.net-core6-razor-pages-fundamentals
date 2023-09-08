@@ -10,24 +10,25 @@ namespace WiredBrainCoffeeAdmin.Data.Models
         [Required]
         public string Name { get; set; }
 
+        [MinLength(20, ErrorMessage = "The description should be at least 20 characters with meaningful content")]
         [Required]
         public string Description { get; set; }
 
+        [MaxLength(30)]
         [Required]
         public string ShortDescription { get; set; }
 
         [Required]
         public decimal Price { get; set; }
 
-        public string ImageFile {  get; set; }
+        public string? ImageFile {  get; set; }
 
-        [Required]
         public DateTime Created { get; set; }
 
         [Required]
         public string Category { get; set; }
 
         [NotMapped]
-        public IFormFile Upload {  get; set; }
+        public IFormFile? Upload {  get; set; }
     }
 }
