@@ -1,11 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WiredBrainCoffeeAdmin.Data;
 using WiredBrainCoffeeAdmin.Data.Models;
 
 namespace WiredBrainCoffeeAdmin.Pages.Products
 {
     public class AddProductModel : PageModel
     {
+        private WiredContext _wiredContext;
+        private IWebHostEnvironment _webEnv;
+
+        public AddProductModel(WiredContext context, IWebHostEnvironment environment)
+        {
+            _wiredContext = context;
+            _webEnv = environment;
+        }
+
         [BindProperty]
         public Product NewProduct { get; set; }
 
@@ -13,17 +23,26 @@ namespace WiredBrainCoffeeAdmin.Pages.Products
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            if (ModelState.IsValid)
-            {
-                // Save product to database
-                var productName = NewProduct.Name;
+            if (!ModelState.IsValid) { return Page(); }
 
-                return RedirectToPage("ViewAllProducts");
+            if (NewProduct.Upload is not null)
+            {
+                NewProduct.ImageFileName = NewProduct.Upload.FileName;
+
+                var file = Path.Combine(_webEnv.ContentRootPath, "wwwroot/images/menu", NewProduct.Upload.FileName);
+                using (var fileStream = new FileStream(file, FileMode.Create))
+                {
+                    await NewProduct.Upload.CopyToAsync(fileStream);
+                }
             }
 
-            return Page();
+            NewProduct.Created = DateTime.Now;
+            _wiredContext.Products.Add(NewProduct);
+            _wiredContext.SaveChanges();
+
+            return RedirectToPage("ViewAllProducts");
         }
     }
 }
