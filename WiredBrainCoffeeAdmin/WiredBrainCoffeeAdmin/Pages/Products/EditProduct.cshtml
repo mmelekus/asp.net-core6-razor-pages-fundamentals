@@ -3,5 +3,14 @@
 @{
 }
 
-<h1>Edit Product @RouteData.Values["id"]</h1>
+<h1>Edit Product @($"\"{Model.EditProduct.Name}\"") <!-- @RouteData.Values["id"] --></h1>
 <hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <partial name="ProductForm" model="@Model.EditProduct" />
+    </div>
+    <div class="col-md-6">
+        <partial name="HelpWidget" />
+    </div>
+</div>

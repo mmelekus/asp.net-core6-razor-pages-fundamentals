@@ -7,17 +7,17 @@ namespace WiredBrainCoffeeAdmin.Pages.Products
 {
     public class AddProductModel : PageModel
     {
-        private WiredContext _wiredContext;
+        private IProductRepository _productRepo;
         private IWebHostEnvironment _webEnv;
 
-        public AddProductModel(WiredContext context, IWebHostEnvironment environment)
+        public AddProductModel(IProductRepository productRepository, IWebHostEnvironment environment)
         {
-            _wiredContext = context;
+            _productRepo = productRepository;
             _webEnv = environment;
         }
 
         [BindProperty]
-        public Product NewProduct { get; set; }
+        public Product NewProduct { get; set; } = new Product();
 
         public void OnGet()
         {
@@ -39,8 +39,7 @@ namespace WiredBrainCoffeeAdmin.Pages.Products
             }
 
             NewProduct.Created = DateTime.Now;
-            _wiredContext.Products.Add(NewProduct);
-            _wiredContext.SaveChanges();
+            _productRepo.Add(NewProduct);
 
             return RedirectToPage("ViewAllProducts");
         }
