@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using WiredBrainCoffeeAdmin.Data;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -13,6 +17,8 @@ builder.Services.AddHttpClient<ITicketService, TicketService>(client => client.B
 builder.Services.AddHttpClient();
 
 var app = builder.Build();
+
+await EnsureDbCreated(app.Services, app.Logger);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -32,3 +38,9 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+async Task EnsureDbCreated(IServiceProvider services, ILogger logger)
+{
+    using var db = services.CreateScope().ServiceProvider.GetRequiredService<WiredContext>();
+    await db.Database.MigrateAsync();
+}
